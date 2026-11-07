@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Biblioteca Digital – Gestão Financeira e Empreendedorismo</title>
+<style>
+:root{--bg:#f6f4ee;--sf:#fff;--tx:#1d2b25;--mu:#5d6b64;--ac:#0f6b4f;--ac2:#c8861a;--bd:#e0dccf;--dg:#b3261e;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121a16;--sf:#1b2621;--tx:#eef2ee;--mu:#9fb0a6;--ac:#3fbf93;--ac2:#e0a43c;--bd:#2b3a33;--dg:#ff8a80}}
+*{box-sizing:border-box}html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--tx);font:16px/1.5 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+header{background:var(--ac);color:#fff;padding:14px 16px 18px}
+.w{max-width:1000px;margin:0 auto}
+.top{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.logo{font-family:Georgia,serif;font-size:22px;font-weight:700}.logo small{display:block;font:12px system-ui;opacity:.85}
+button,select,input,textarea{font:inherit;color:inherit}
+.btn{background:var(--ac);color:#fff;border:0;border-radius:10px;padding:10px 14px;cursor:pointer;min-height:44px}
+.btn.o{background:transparent;color:var(--ac);border:1px solid var(--ac)}.btn.d{background:var(--dg);color:#fff}
+header .btn{background:rgba(255,255,255,.18)}
+#q{width:100%;margin-top:14px;padding:14px;border-radius:12px;border:0;background:#fff;color:#1d2b25;font-size:17px}
+main{max-width:1000px;margin:0 auto;padding:14px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:4px 0 10px}
+.chip{white-space:nowrap;border:1px solid var(--bd);background:var(--sf);border-radius:20px;padding:8px 14px;cursor:pointer;min-height:40px}
+.chip.on{background:var(--ac);color:#fff;border-color:var(--ac)}
+.filters{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}.filters select{flex:1;min-width:140px;padding:10px;border-radius:10px;border:1px solid var(--bd);background:var(--sf)}
+h2{font-family:Georgia,serif;margin:22px 0 10px;font-size:20px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px}
+.card{background:var(--sf);border:1px solid var(--bd);border-radius:12px;overflow:hidden;cursor:pointer;display:flex;flex-direction:column;text-align:left;padding:0}
+.cover{height:110px;display:flex;align-items:center;justify-content:center;font-size:40px;color:#fff;position:relative}
+.cover img{width:100%;height:100%;object-fit:cover}
+.cb{padding:10px}.cb b{display:block;font-size:14px;line-height:1.3}.cb span{font-size:12px;color:var(--mu)}
+.tag{display:inline-block;font-size:11px;background:var(--bd);border-radius:6px;padding:1px 6px;margin-right:4px;color:var(--tx)}
+.demo{position:absolute;top:6px;left:6px;font-size:10px;background:var(--ac2);color:#fff;border-radius:6px;padding:1px 6px}
+.fav{position:absolute;top:4px;right:6px;font-size:20px}
+.bar{height:5px;background:var(--bd)}.bar i{display:block;height:100%;background:var(--ac2)}
+.empty{padding:24px;text-align:center;color:var(--mu);background:var(--sf);border:1px dashed var(--bd);border-radius:12px}
+#ov{position:fixed;inset:0;background:rgba(0,0,0,.55);display:none;z-index:20;overflow:auto}
+#md{background:var(--sf);max-width:720px;margin:0 auto;min-height:100%;padding:16px;padding-top:calc(16px + env(safe-area-inset-top,0px));padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+@media(min-width:760px){#md{margin:24px auto;min-height:0;border-radius:14px}}
+label{display:block;margin-top:10px;font-size:14px;color:var(--mu)}
+input,textarea,select.f{width:100%;padding:10px;border:1px solid var(--bd);border-radius:10px;background:var(--bg)}
+.row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.read{background:var(--bg);border-radius:10px;padding:14px;margin-top:12px;white-space:pre-wrap}
+iframe{width:100%;height:70vh;border:1px solid var(--bd);border-radius:10px;margin-top:12px}
+.note{font-size:13px;color:var(--mu);margin-top:6px}.err{color:var(--dg)}
+footer{text-align:center;color:var(--mu);font-size:12px;padding:20px}
+.arow{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:10px 0;border-bottom:1px solid var(--bd)}
+</style>
+</head>
+<body>
+<header><div class="w">
+<div class="top"><div class="logo">📚 Biblioteca Digital<small>Gestão Financeira e Empreendedorismo</small></div><button class="btn" id="adm">⚙ Administração</button></div>
+<input id="q" type="search" placeholder="Pesquisar por título, autor, descrição ou categoria…" aria-label="Pesquisar">
+</div></header>
+<main>
+<div class="chips" id="chips"></div>
+<div class="filters"><select id="ft" aria-label="Tipo"></select><select id="fl" aria-label="Nível"></select></div>
+<div id="home"></div>
+<h2 id="rt">Estante</h2><div class="grid" id="shelf"></div>
+</main>
+<footer>Os favoritos e o progresso ficam guardados neste navegador (sem contas de utilizador). Recursos marcados “Demonstração” são materiais educativos criados pela plataforma.</footer>
+<div id="ov"><div id="md"></div></div>
+<script>
+var CATS=["Gestão financeira","Empreendedorismo","Gestão de pequenos negócios","Ferramentas práticas","Formação e aprendizagem"];
+var TIPOS=["Livro","Artigo","Manual","PDF","Ferramenta"],NIVEIS=["Iniciante","Intermédio","Avançado"];
+var GR=["#0f6b4f","#c8861a","#2f5d8a","#8a3f6b","#5b6b2a","#a1432f"],IC={"Gestão financeira":"💰","Empreendedorismo":"💡","Gestão de pequenos negócios":"🏪","Ferramentas práticas":"🧰","Formação e aprendizagem":"🎓"};
+function D(id,t,c,tp,n,d,p){return{id:id,titulo:t,autor:"Equipa da Biblioteca (demonstração)",cat:c,tipo:tp,nivel:n,desc:d,paginas:p,demo:true,rec:true,capa:"",link:"",pdf:false}}
+var SEED=[
+D("d1","Como controlar o dinheiro de um pequeno negócio","Gestão financeira","Manual","Iniciante","Guia prático para separar o dinheiro do negócio do dinheiro pessoal e registar entradas e saídas.",["Separe as contas. Abra uma conta (ou carteira móvel) só para o negócio. Misturar dinheiro pessoal e do negócio é o erro mais comum e esconde o lucro real.","Registe tudo no mesmo dia. Num caderno ou folha, anote a data, a descrição, o valor recebido (entrada) e o valor pago (saída), sempre em MZN.","Faça o fecho semanal. Some as entradas, some as saídas e compare com o dinheiro que tem na caixa. Se a diferença for grande, procure o erro nessa semana.","Pague-se um salário. Defina um valor fixo mensal para si; o resto fica no negócio para reposição de stock e despesas."]),
+D("d2","Como preparar um orçamento mensal","Gestão financeira","Manual","Iniciante","Passos simples para estimar receitas e despesas do mês e acompanhar o previsto contra o real.",["Estime as receitas. Olhe para os últimos 3 meses de vendas e use o valor mais prudente (não o melhor mês).","Liste despesas fixas: renda, salários, electricidade, água, internet. Depois as variáveis: compras de mercadoria, transporte, comissões.","Calcule o saldo previsto = receitas − despesas. Se for negativo, corte despesas ou aumente vendas antes de o mês começar.","No fim do mês compare previsto e real, e anote as diferenças. É assim que o orçamento melhora de mês para mês."]),
+D("d3","Como calcular custos, preços e margens","Gestão financeira","Artigo","Intermédio","Método para calcular o custo de cada produto ou serviço e definir um preço que dê lucro.",["Custo directo: o que gasta para produzir uma unidade (ingredientes, mercadoria, material).","Custos indirectos: renda, luz, salários. Divida o total mensal pelo número de unidades vendidas para obter o custo por unidade.","Exemplo: custo total por unidade 80 MZN. Para uma margem de 25% sobre o preço: preço = 80 ÷ (1 − 0,25) ≈ 107 MZN.","Compare com a concorrência, mas nunca venda abaixo do custo total sem uma razão estratégica."]),
+D("d4","Como compreender o fluxo de caixa","Gestão financeira","Artigo","Intermédio","Explica a diferença entre lucro e dinheiro disponível, e como prever faltas de caixa.",["Lucro não é o mesmo que dinheiro em caixa. Vendas a crédito contam como lucro, mas só entram em caixa quando o cliente paga.","Mapa de fluxo de caixa: saldo inicial + entradas − saídas = saldo final. O saldo final de um mês é o inicial do seguinte.","Se o saldo previsto fica negativo, antecipe: negoceie prazos com fornecedores, peça pagamento adiantado ou reduza compras.","Mantenha uma reserva equivalente a pelo menos um mês de despesas fixas."]),
+D("d5","Como validar uma ideia de negócio","Empreendedorismo","Guia","Iniciante","Testes baratos para saber se existem clientes dispostos a pagar antes de investir.",["Defina o cliente e o problema: quem sofre com o quê, e quanto já paga hoje para o resolver?","Converse com 10 potenciais clientes. Pergunte sobre o que fazem hoje, não se “gostavam da sua ideia”.","Faça um teste mínimo: venda um lote pequeno ou aceite pré-encomendas. Quem paga é a melhor validação.","Decida com números: custo, preço, quantidade que consegue vender por mês e ponto de equilíbrio."].map(function(x){return x})),
+D("d6","Finanças de um salão de beleza, restaurante ou oficina","Gestão de pequenos negócios","Manual","Intermédio","Exemplos de controlo financeiro adaptados a três negócios comuns.",["Salão: registe cada serviço e o produto usado; controle comissões das cabeleireiras e o stock de produtos.","Restaurante: calcule o custo por prato (ingredientes ÷ doses), controle desperdício e faça o fecho de caixa diário.","Oficina: separe mão-de-obra e peças; registe adiantamentos de clientes e peças pedidas a fornecedores.","Em todos: fecho diário, resumo semanal e revisão mensal de preços."]),
+D("d7","Instrumentos simples de controlo financeiro","Ferramentas práticas","Ferramenta","Iniciante","Modelos de registo de vendas, mapa de despesas e ficha de diagnóstico empresarial.",["Registo de vendas: Data | Cliente | Produto | Quantidade | Valor (MZN) | Pago? (Sim/Não).","Mapa de despesas: Data | Categoria (renda, transporte, compras…) | Descrição | Valor (MZN).","Ficha de diagnóstico: vendo com lucro? Sei quanto devo e quanto me devem? Tenho reserva? Registo tudo todas as semanas?","Imprima ou copie estes modelos para uma folha de cálculo e use-os durante um mês."])];
+SEED[4].paginas=SEED[4].paginas;
+SEED[4].tipo="Manual";
+function ld(k,d){try{var v=localStorage.getItem(k);return v?JSON.parse(v):d}catch(e){return d}}
+function sv(k,v){try{localStorage.setItem(k,JSON.stringify(v))}catch(e){}}
+var R=ld("bd_res",null)||SEED,FAV=ld("bd_fav",[]),PR=ld("bd_pr",{}),REC=ld("bd_rec",[]),cat="",$=function(i){return document.getElementById(i)};
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,function(c){return{"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]})}
+function persist(){sv("bd_res",R)}
+/* IndexedDB para PDFs */
+function db(){return new Promise(function(ok,ko){try{var r=indexedDB.open("bd_pdf",1);r.onupgradeneeded=function(){r.result.createObjectStore("f")};r.onsuccess=function(){ok(r.result)};r.onerror=function(){ko(r.error)}}catch(e){ko(e)}})}
+function putPdf(id,b){return db().then(function(d){return new Promise(function(ok,ko){var t=d.transaction("f","readwrite");t.objectStore("f").put(b,id);t.oncomplete=ok;t.onerror=function(){ko(t.error)}})})}
+function getPdf(id){return db().then(function(d){return new Promise(function(ok,ko){var q=d.transaction("f").objectStore("f").get(id);q.onsuccess=function(){ok(q.result)};q.onerror=function(){ko(q.error)}})})}
+function delPdf(id){return db().then(function(d){d.transaction("f","readwrite").objectStore("f").delete(id)}).catch(function(){})}
+function opts(a,all){return(all?'<option value="">'+all+'</option>':"")+a.map(function(x){return"<option>"+x+"</option>"}).join("")}
+$("ft").innerHTML=opts(TIPOS,"Todos os tipos");$("fl").innerHTML=opts(NIVEIS,"Todos os níveis");
+function chips(){$("chips").innerHTML=['<button class="chip'+(cat?"":" on")+'" data-c="">Todas</button>'].concat(CATS.map(function(c){return'<button class="chip'+(cat==c?" on":"")+'" data-c="'+c+'">'+IC[c]+" "+c+"</button>"})).join("")}
+$("chips").onclick=function(e){var b=e.target.closest(".chip");if(!b)return;cat=b.dataset.c;chips();render()};
+function cardH(r){var i=R.indexOf(r),g=GR[(i<0?0:i)%GR.length],p=PR[r.id]||0;
+return'<button class="card" data-id="'+r.id+'"><div class="cover" style="background:'+g+'">'+(r.capa?'<img src="'+esc(r.capa)+'" alt="" onerror="this.remove()">':IC[r.cat]||"📘")+(r.demo?'<span class="demo">Demonstração</span>':"")+(FAV.indexOf(r.id)>=0?'<span class="fav">❤️</span>':"")+'</div><div class="bar"><i style="width:'+p+'%"></i></div><div class="cb"><b>'+esc(r.titulo)+'</b><span class="tag">'+r.tipo+'</span><span class="tag">'+r.nivel+'</span></div></button>'}
+function sec(t,a){return a.length?'<h2>'+t+'</h2><div class="grid">'+a.map(cardH).join("")+"</div>":""}
+function render(){var q=$("q").value.trim().toLowerCase(),ft=$("ft").value,fl=$("fl").value;
+var res=R.filter(function(r){return(!cat||r.cat==cat)&&(!ft||r.tipo==ft)&&(!fl||r.nivel==fl)&&(!q||(r.titulo+" "+r.autor+" "+r.desc+" "+r.cat).toLowerCase().indexOf(q)>=0)});
+var filt=q||cat||ft||fl,h="";
+if(!filt){h+=sec("⭐ Recomendados",R.filter(function(r){return r.rec}).slice(0,6));
+h+=sec("❤️ Favoritos",R.filter(function(r){return FAV.indexOf(r.id)>=0}));
+h+=sec("🕘 Consultados recentemente",REC.map(function(id){return R.filter(function(r){return r.id==id})[0]}).filter(Boolean))}
+$("home").innerHTML=h;$("rt").textContent=filt?"Resultados ("+res.length+")":"Estante completa";
+$("shelf").innerHTML=res.length?res.map(cardH).join(""):'<div class="empty" style="grid-column:1/-1">Nenhum recurso encontrado. Tente outras palavras ou limpe os filtros.</div>'}
+["q","ft","fl"].forEach(function(i){$(i).oninput=render;$(i).onchange=render});
+document.addEventListener("click",function(e){var c=e.target.closest(".card");if(c&&c.dataset.id)openR(c.dataset.id)});
+function show(h){$("md").innerHTML=h;$("ov").style.display="block";$("ov").scrollTop=0;document.body.style.overflow="hidden"}
+function closeM(){$("ov").style.display="none";document.body.style.overflow="";if(window._url){URL.revokeObjectURL(window._url);window._url=null}render()}
+$("ov").onclick=function(e){if(e.target==$("ov"))closeM()};
+function openR(id){var r=R.filter(function(x){return x.id==id})[0];if(!r)return;
+REC=[id].concat(REC.filter(function(x){return x!=id})).slice(0,6);sv("bd_rec",REC);
+var f=FAV.indexOf(id)>=0,p=PR[id]||0;
+var canRead=r.paginas&&r.paginas.length||r.pdf,btns="";
+if(canRead)btns+='<button class="btn" id="bRead">📖 Ler agora</button>';
+if(r.link)btns+='<a class="btn o" style="text-decoration:none;display:inline-flex;align-items:center" href="'+esc(r.link)+'" target="_blank" rel="noopener noreferrer">🔗 Abrir recurso externo</a>';
+if(r.pdf)btns+='<button class="btn o" id="bDl">⬇ Descarregar PDF</button>';
+if(!btns)btns='<span class="note">Este recurso ainda não tem conteúdo disponível.</span>';
+show('<button class="btn o" onclick="closeM()">← Voltar</button><h2 style="margin-top:14px">'+esc(r.titulo)+'</h2><div class="cover" style="background:'+GR[R.indexOf(r)%GR.length]+';border-radius:12px;height:130px">'+(r.capa?'<img src="'+esc(r.capa)+'" alt="" onerror="this.remove()">':IC[r.cat]||"📘")+'</div><p><span class="tag">'+r.tipo+'</span><span class="tag">'+esc(r.cat)+'</span><span class="tag">'+r.nivel+'</span>'+(r.demo?'<span class="tag" style="background:var(--ac2);color:#fff">Demonstração</span>':"")+'</p><p class="note">Autor: '+esc(r.autor||"Desconhecido")+'</p><p>'+esc(r.desc)+'</p><div class="bar" style="border-radius:4px"><i style="width:'+p+'%"></i></div><p class="note">Progresso de leitura: '+p+'%</p><div class="row">'+btns+'<button class="btn o" id="bFav">'+(f?"❤️ Nos favoritos":"🤍 Adicionar aos favoritos")+'</button></div><div id="rd"></div>');
+$("bFav").onclick=function(){var i=FAV.indexOf(id);i>=0?FAV.splice(i,1):FAV.push(id);sv("bd_fav",FAV);openR(id)};
+if($("bRead"))$("bRead").onclick=function(){readR(r)};
+if($("bDl"))$("bDl").onclick=function(){getPdf(r.id).then(function(b){if(!b)throw 0;var u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=r.titulo+".pdf";a.click();setTimeout(function(){URL.revokeObjectURL(u)},4000)}).catch(function(){$("rd").innerHTML='<p class="err">Não foi possível abrir o ficheiro guardado.</p>'})}}
+function setP(id,v){PR[id]=v;sv("bd_pr",PR)}
+function readR(r){var box=$("rd");
+if(r.paginas&&r.paginas.length){var n=r.paginas.length,pg=Math.min(n-1,Math.floor((PR[r.id]||0)/100*n));if(PR[r.id]>=100)pg=n-1;
+var draw=function(){box.innerHTML='<div class="read">'+esc(r.paginas[pg])+'</div><div class="row"><button class="btn o" id="pv"'+(pg?"":" disabled")+'>← Anterior</button><span class="note" style="align-self:center">Página '+(pg+1)+" de "+n+'</span><button class="btn" id="nx"'+(pg<n-1?"":" disabled")+'>Seguinte →</button></div>';setP(r.id,Math.round((pg+1)/n*100));
+$("pv").onclick=function(){pg--;draw()};$("nx").onclick=function(){pg++;draw()}};draw();box.scrollIntoView();return}
+box.innerHTML='<p class="note">A abrir documento…</p>';
+getPdf(r.id).then(function(b){if(!b)throw 0;window._url=URL.createObjectURL(b);box.innerHTML='<iframe src="'+window._url+'" title="Leitor de PDF"></iframe><div class="row"><button class="btn o" id="mk">Marcar como lido (100%)</button></div><p class="note">Se o documento não aparecer no telemóvel, use “Descarregar PDF”.</p>';$("mk").onclick=function(){setP(r.id,100);openR(r.id)};if(!PR[r.id])setP(r.id,5)}).catch(function(){box.innerHTML='<p class="err">Erro ao abrir o documento. Tente descarregá-lo ou carregue-o novamente na administração.</p>'})}
+/* Administração */
+function adm(){var pin=ld("bd_pin","1234"),ok=sessionStorage.getItem("bd_ok");
+if(ok)return panel();
+show('<button class="btn o" onclick="closeM()">← Voltar</button><h2>Administração</h2><label>Código de acesso</label><input id="pn" type="password" inputmode="numeric" autocomplete="off"><div class="row"><button class="btn" id="go">Entrar</button></div><p class="note">Código inicial: 1234. Altere-o após entrar. Nota: esta protecção é local ao navegador; para segurança real é necessário um servidor com autenticação.</p><p class="err" id="pe"></p>');
+$("go").onclick=function(){if($("pn").value==pin){try{sessionStorage.setItem("bd_ok","1")}catch(e){}panel()}else $("pe").textContent="Código incorrecto."}}
+$("adm").onclick=adm;
+function panel(){show('<button class="btn o" onclick="closeM()">← Voltar</button><h2>Gestão de materiais</h2><div class="row"><button class="btn" id="nw">+ Novo recurso</button><button class="btn o" id="cp">Alterar código</button><button class="btn o" id="rs">Repor demonstrações</button></div>'+R.map(function(r){return'<div class="arow"><span>'+esc(r.titulo)+'</span><span style="white-space:nowrap"><button class="btn o" data-e="'+r.id+'">Editar</button> <button class="btn d" data-x="'+r.id+'">Apagar</button></span></div>'}).join("")+'<p class="note">Os PDFs ficam guardados neste navegador (IndexedDB). Respeite os direitos de autor: carregue apenas materiais próprios, licenciados ou de domínio público.</p>');
+$("nw").onclick=function(){form(null)};
+$("cp").onclick=function(){var n=prompt("Novo código (mín. 4 caracteres):");if(n&&n.length>=4){sv("bd_pin",n);alert("Código alterado.")}};
+$("rs").onclick=function(){if(confirm("Repor a lista de demonstração? Os seus recursos serão removidos.")){R=SEED.slice();persist();panel()}};
+$("md").onclick=function(e){var b=e.target.closest("button");if(!b)return;if(b.dataset.e)form(b.dataset.e);if(b.dataset.x&&confirm("Apagar este recurso?")){delPdf(b.dataset.x);R=R.filter(function(r){return r.id!=b.dataset.x});persist();panel()}}}
+function form(id){var r=R.filter(function(x){return x.id==id})[0]||{titulo:"",autor:"",desc:"",cat:CATS[0],tipo:TIPOS[0],nivel:NIVEIS[0],capa:"",link:""};
+show('<button class="btn o" id="bk">← Voltar</button><h2>'+(id?"Editar":"Novo")+' recurso</h2><label>Título *</label><input id="t" value="'+esc(r.titulo)+'"><label>Autor</label><input id="a" value="'+esc(r.autor)+'"><label>Descrição</label><textarea id="d" rows="3">'+esc(r.desc)+'</textarea><label>Categoria</label><select class="f" id="c">'+opts(CATS)+'</select><label>Tipo</label><select class="f" id="tp">'+opts(TIPOS)+'</select><label>Nível</label><select class="f" id="nv">'+opts(NIVEIS)+'</select><label>Imagem de capa (endereço https, opcional)</label><input id="cv" value="'+esc(r.capa)+'"><label>Link externo (opcional)</label><input id="lk" value="'+esc(r.link)+'"><label>Ficheiro PDF (opcional)</label><input id="pf" type="file" accept="application/pdf"><div class="row"><button class="btn" id="sv">Guardar</button></div><p class="err" id="fe"></p>');
+$("c").value=r.cat;$("tp").value=r.tipo;$("nv").value=r.nivel;
+$("bk").onclick=panel;
+$("sv").onclick=function(){var t=$("t").value.trim(),lk=$("lk").value.trim(),cv=$("cv").value.trim(),f=$("pf").files[0];
+if(!t)return $("fe").textContent="O título é obrigatório.";
+if(lk&&!/^https?:\/\//.test(lk))return $("fe").textContent="O link deve começar por http:// ou https://";
+if(cv&&!/^https?:\/\//.test(cv))return $("fe").textContent="A capa deve ser um endereço http(s).";
+if(f&&f.size>30e6)return $("fe").textContent="PDF demasiado grande (máx. 30 MB).";
+var o=r.id?r:{id:"u"+Date.now(),demo:false,rec:false,pdf:false};
+o.titulo=t;o.autor=$("a").value.trim();o.desc=$("d").value.trim();o.cat=$("c").value;o.tipo=$("tp").value;o.nivel=$("nv").value;o.capa=cv;o.link=lk;
+var fin=function(){if(!r.id)R.unshift(o);persist();panel()};
+if(f){putPdf(o.id,f).then(function(){o.pdf=true;fin()}).catch(function(){$("fe").textContent="Não foi possível guardar o PDF neste navegador."})}else fin()}}
+chips();render();
+</script>
+</body>
+</html>
